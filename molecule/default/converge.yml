@@ -4,6 +4,6 @@
   vars:
     nodejs_install_npm_user: root
   tasks:
-    - name: "Include testing-role"
+    - name: "Include ansible-molecule-testrole"
       include_role:
-        name: "testing-role"
+        name: "ansible-molecule-testrole"
