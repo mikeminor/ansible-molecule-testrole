@@ -27,15 +27,3 @@
 - name: Run web.js file if not running.
   command: forever start {{ test_fullpath }}
   when: __portcheck is succeeded and __portcheck is not skipped
-
-- name: View path
-  debug:
-    msg: "{{ test_fullpath }}"
-
-- name: View forever_res
-  debug:
-    var: __procres.stdout_lines
-
-- name: procres rc
-  debug:
-    var: __portcheck
