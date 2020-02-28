@@ -1,0 +1,25 @@
+---
+name: Molecule Testing
+on: [push, commit]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      # In an actual implementation we would cook the dependencies into an image and use that. 
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install molecule molecule[docker] molecule[lint] selinux
+      - name: Test with molecule
+        run: |
+          molecule test

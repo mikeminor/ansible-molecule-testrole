@@ -1,0 +1,8 @@
+---
+#Path to folder we will be copying the js file to.
+#Default to user's home.
+test_path: "{{ ansible_env['HOME'] }}"
+test_filename: web.js
+
+#Constant
+test_fullpath: "{{ test_path }}/{{ test_filename }}"

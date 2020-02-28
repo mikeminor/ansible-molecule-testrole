@@ -1,0 +1,15 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: URL check
+    uri:
+      url: http://localhost:3000
+      return_content: true
+    register: url_out
+
+  - name: Example assertion
+    assert:
+      that:
+      - url_out.content == 'Hello World'
+      - url_out.status|int == 200

@@ -1,0 +1,20 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+
+platforms:
+  - name: centos8
+    image: centos:8
+  - name: ubuntu-bionic
+    image: ubuntu:bionic
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible

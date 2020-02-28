@@ -1,0 +1,41 @@
+---
+- name: Ensure Forever is Installed
+  become: yes
+  npm:
+    name: forever
+    global: yes
+
+- name: Copy web.js file.
+  copy:
+    src: web.js
+    dest: "{{ test_fullpath }}"
+
+- name: See if our app's process is running.
+  command: "ps aux"
+  register: __procres
+  changed_when: false
+  failed_when: false
+
+- name: Check if port is available before starting.
+  wait_for:
+    port: 3000
+    state: stopped
+    timeout: 10
+  when: test_filename not in __procres.stdout
+  register: __portcheck
+
+- name: Run web.js file if not running.
+  command: forever start {{ test_fullpath }}
+  when: __portcheck is succeeded and __portcheck is not skipped
+
+- name: View path
+  debug:
+    msg: "{{ test_fullpath }}"
+
+- name: View forever_res
+  debug:
+    var: __procres.stdout_lines
+
+- name: procres rc
+  debug:
+    var: __portcheck
